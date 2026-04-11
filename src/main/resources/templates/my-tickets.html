@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Moje tickety</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <h3>Moje tickety</h3>
+
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th>Temat</th>
+            <th>Rozmowa</th>
+            <th>Status</th>
+            <th>Odpowiedź</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="t : ${tickets}">
+
+            <td th:text="${t.subject}"></td>
+
+            <td style="white-space: pre-line;" th:text="${t.message}"></td>
+
+            <td>
+                <span th:if="${t.status == 'NEW'}" class="badge bg-warning">Otwarte</span>
+                <span th:if="${t.status == 'CLOSED'}" class="badge bg-success">Zamknięte</span>
+            </td>
+
+            <td>
+
+                <form th:if="${t.status != 'CLOSED'}"
+                      th:action="@{'/tickets/reply/' + ${t.id}}"
+                      method="post">
+
+                    <input type="text"
+                           name="message"
+                           class="form-control mb-2"
+                           placeholder="Napisz odpowiedź..." required>
+
+                    <button class="btn btn-dark btn-sm w-100">
+                        Wyślij
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>

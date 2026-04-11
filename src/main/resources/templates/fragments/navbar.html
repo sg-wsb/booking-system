@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+     th:fragment="navbar">
+
+    <div class="container">
+
+        <a class="navbar-brand"
+           th:href="${#authorization.expression('hasRole(''ADMIN'')')} ? '/admin' : '/slots'">
+            System rezerwacji
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item" sec:authorize="!hasRole('ADMIN')">
+                    <a class="nav-link" href="/slots">
+                        Terminy
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="!hasRole('ADMIN')">
+                    <a class="nav-link" href="/calendar">
+                        Kalendarz
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated() and !hasRole('ADMIN')">
+                    <a class="nav-link" href="/my-bookings">
+                        Moje rezerwacje
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated() and !hasRole('ADMIN')">
+                    <a class="nav-link" href="/contact">
+                        Kontakt
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin/slots">
+                        Terminy
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin/bookings">
+                        Rezerwacje
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin/tickets">
+                        Tickety
+                    </a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated() and !hasRole('ADMIN')">
+                    <a class="nav-link" href="/my-tickets">
+                        Moje tickety
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="d-flex align-items-center">
+
+
+                <a href="/login"
+                   class="btn btn-outline-light btn-sm me-2"
+                   sec:authorize="!isAuthenticated()">
+                    Zaloguj
+                </a>
+
+                <a href="/register"
+                   class="btn btn-light btn-sm me-3"
+                   sec:authorize="!isAuthenticated()">
+                    Rejestracja
+                </a>
+
+                <span class="text-white me-3"
+                      sec:authorize="isAuthenticated()">
+                    Zalogowany:
+                    <strong th:text="${#authentication.principal.fullName}">
+                        Imię Nazwisko
+                    </strong>
+                </span>
+
+                <a href="/logout"
+                   class="btn btn-outline-danger btn-sm"
+                   sec:authorize="isAuthenticated()">
+                    Wyloguj
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>

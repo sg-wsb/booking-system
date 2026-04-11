@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tickety</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+
+    <h3>Tickety</h3>
+
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Temat</th>
+            <th>Rozmowa</th>
+            <th>Status</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="t : ${tickets}">
+
+            <td th:text="${t.email}"></td>
+            <td th:text="${t.subject}"></td>
+
+            <td style="white-space: pre-line;" th:text="${t.message}"></td>
+
+            <td>
+                <span th:if="${t.status == 'NEW'}" class="badge bg-warning">Otwarte</span>
+                <span th:if="${t.status == 'CLOSED'}" class="badge bg-success">Zamknięte</span>
+            </td>
+
+            <td>
+
+
+                <form th:if="${t.status != 'CLOSED'}"
+                      th:action="@{'/admin/tickets/reply/' + ${t.id}}"
+                      method="post">
+
+                    <input type="text" name="response"
+                           class="form-control mb-2"
+                           placeholder="Odpowiedz..." required>
+
+                    <button class="btn btn-sm btn-success w-100">
+                        Wyślij
+                    </button>
+
+                </form>
+
+
+                <form th:if="${t.status != 'CLOSED'}"
+                      th:action="@{'/admin/tickets/close/' + ${t.id}}"
+                      method="post">
+
+                    <button class="btn btn-sm btn-danger mt-2 w-100">
+                        Zamknij
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+</body>
+</html>
