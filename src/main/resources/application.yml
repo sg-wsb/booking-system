@@ -1,0 +1,16 @@
+# deploy test 123
+
+
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://dpg-d7f808e7r5hc7395lhn0-a:5432/booking_db_44mu
+    username: booking_db_44mu_user
+    password: NC8qw4K5tlNHycZRulvLZwuBD8OFOKZk
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update

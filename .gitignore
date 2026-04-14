@@ -13,6 +13,5 @@ target/
 Thumbs.db
 
 # Env / secrets
-application.yml
 application.properties
 .env
